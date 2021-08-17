@@ -91,19 +91,17 @@
             </nav>
         </div>
        <div class="container mt-3 mb-3">
-           <form>
-        <div class="form-group">
-            <label for="exampleFormControlSelect1">Example select</label>
-            <select class="form-control" id="exampleFormControlSelect1">
-              <option>Name</option>
-              <option>Username</option>
-              <option>Email</option>
-              
+
+        <div class="d-flex justify-content-between">
+            <select class="selectvalues mt-5" style="width: 50%;">
+              <option value="name"> Name</option>
+              <option value="username"> Username</option>
+              <option value="email"> Email</option>
             </select>
-         
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          <input type="text" class="form-control mt-5 input-field" placeholder="search..." aria-label="Example text with button addon" aria-describedby="button-addon1" />
+        </div>
+
           </div>
-        </form>
        
 
         <div class="container mt-4 table">
@@ -123,13 +121,17 @@
             crossorigin="anonymous"></script>
 
         <script>
+         let _data   
        window.onload = async() => {
         try {
           let response = await fetch('https://jsonplaceholder.typicode.com/users');
           if(response.ok){
           let data = await response.json()
+          _data = data
           console.log(data)
           displayData(data)
+          
+
           }
         }
         catch (error){
@@ -137,6 +139,18 @@
         }
           
           }
+
+   
+          const input = document.querySelector('.input-field')
+          input.addEventListener('input', (e) => {
+              console.log(e.target.value)
+            const selectedOption = document.querySelector('.selectvalues').value
+            const filtered = _data.filter(element => 
+            element[selectedOption].toLowerCase().includes(e.target.value))
+            //console.log(filtered)
+            displayData(filtered)
+          })
+        
 
      const displayData = (data) => {
 
